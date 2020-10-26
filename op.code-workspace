@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "..\\C-language-learning"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"Armazena-String-no-HD.C": "cpp"
+		}
+	}
+}
