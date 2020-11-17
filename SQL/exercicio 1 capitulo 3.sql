@@ -102,7 +102,7 @@ WHERE contato_fk IN
 SELECT id 
 FROM contato
 WHERE sobrenome = ‘Machado’
-)
+);
 
 /*Consulta aninhada EXISTS*/
 
@@ -112,4 +112,79 @@ WHERE EXISTS
 (
     SELECT * FROM subordinado AS s 
     WHERE f.nome = s.nome
-)
+);
+
+/*Selecione o nome e o sobrenome de todos os funcionários que não possuem subordinados.*/
+
+SELECT f.nome, f.sobrenome
+FROM funcionario AS f
+WHERE NOT EXISTS (
+SELECT *
+FROM subordinado AS s
+WHERE s.superior_fk = f.id
+);
+
+/*INNER JOIN - FULL JOIN - LEFT JOIN - RIGHT JOIN*/
+
+SELECT * FROM T1 INNER JOIN T2 ON 
+T1.C1 = T2.C1;
+
+SELECT *
+FROM T1 FULL JOIN T2 ON
+T1.C1 = T2.C1;
+
+SELECT *
+FROM T1 LEFT JOIN T2 ON
+T1.C1 = T2.C1;
+
+SELECT *
+FROM T1 RIGHT JOIN T2 ON
+T1.C1 = T2.C1;
+
+/*SELECIONA TODOS OS TELEFONES QUE INICIAM COM 44*/
+
+SELECT nome
+FROM contato, telefone
+WHERE contato.id = telefone.contato_fk 
+and telefone.telefone LIKE '44%';
+
+/**SELECIONA TODOS OS TELEFONES QUE INICIAM COM 44 (USANDO JOIN)*/
+SELECT nome
+FROM contato JOIN telefone ON
+contato.id = telefone.contato_fk
+WHERE telefone.telefone LIKE '44%';
+
+/* MOSTRA NULL SE O CONTATO N TEM TELEFONE, MAS SE NAO TEM CONTATO, NÃO HÁ NEM CONTATO E NEM TELEFONE*/
+
+SELECT nome, telefone
+FROM contato LEFT JOIN telefone ON contato.id = telefone.contato_fk
+WHERE contato.nome LIKE 'A%';
+
+/*MAX E MIN*/
+
+SELECT MAX(peso), MIN(peso)
+FROM contato;
+
+/*RETORNA A CONTAGEM DO VALORES VERDEIROS DE RETORNO*/
+
+SELECT COUNT(*)
+FROM contato
+WHERE peso > 80;
+
+/*RETORNA UMA LISTA SOMENTE DE VALORES DISTINTOS, OU SEJA, NUNCA RETORNARÁ UM VALOR 2 VEZES*/
+
+SELECT COUNT(DISTINCT peso)
+FROM contato;
+
+/*GROUP BY - RETORNA SOMENTE OS VALORES SEMELHANTES / REPETIDOS*/
+
+SELECT sobrenome, COUNT(*)
+FROM contato
+GROUP BY sobrenome;
+
+/* SÓ RETORNA SE TIVER MAIS DE 1 CONTATO COM O MESMO SOBRENOME */
+
+SELECT sobrenome, COUNT(*)
+FROM contato
+GROUP by sobrenome
+HAVING COUNT(*) > 1;
