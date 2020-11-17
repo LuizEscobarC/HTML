@@ -80,3 +80,36 @@ WHERE ID = 1;
 
 DELETE FROM DISCIPLINA
 WHERE ID = 3; 
+
+/* consultar todos os professores que não tenham telefones cadastrados*/
+
+SELECT *
+FROM PROFESSOR
+WHERE FONE IS NULL;
+
+/* Listar o nome e o cargo de todos os Funcionários que foram demitidos: */
+
+SELECT NOME, CARGO
+FROM FUNCIONARIOS
+WHERE DATA_DEMISSAO IS NOT NULL;
+
+/*consulta aninhada IN*/
+
+SELECT telefone 
+FROM telefone 
+WHERE contato_fk IN
+(
+SELECT id 
+FROM contato
+WHERE sobrenome = ‘Machado’
+)
+
+/*Consulta aninhada EXISTS*/
+
+SELECT f.nome, f.sobrenome 
+FROM funcionario AS f 
+WHERE EXISTS
+(
+    SELECT * FROM subordinado AS s 
+    WHERE f.nome = s.nome
+)
